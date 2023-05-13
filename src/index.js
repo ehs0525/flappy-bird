@@ -8,7 +8,26 @@ let keys = {};
 
 let $bird = document.createElement("div");
 let $wing = document.createElement("div");
+let player = {
+  x: 0,
+  y: 0,
+  speed: 2,
+};
 
+const playGame = () => {
+  if (keys.ArrowUp) {
+    player.x -= player.speed;
+  } else if (keys.ArrowDown) {
+    player.x += player.speed;
+  } else if (keys.ArrowLeft) {
+    player.y -= player.speed;
+  } else if (keys.ArrowRight) {
+    player.y += player.speed;
+  }
+  $bird.style.top = player.x + "px";
+  $bird.style.left = player.y + "px";
+  window.requestAnimationFrame(playGame);
+};
 const start = () => {
   console.log("game start");
   $game_message.classList.add("hide");
@@ -18,6 +37,9 @@ const start = () => {
   $wing.setAttribute("class", "wing");
   $bird.appendChild($wing);
   $game_area.appendChild($bird);
+  player.x = $bird.offsetTop;
+  player.y = $bird.offsetLeft;
+  window.requestAnimationFrame(playGame);
 };
 const onKeyDown = (e) => {
   console.log("on");
