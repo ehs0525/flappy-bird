@@ -4,16 +4,21 @@ const $score = document.querySelector(".score");
 const $start_btn = document.querySelector(".start_btn");
 const $game_area = document.querySelector(".game_area");
 const $game_message = document.querySelector(".game_message");
+let keys = {};
 
 const start = () => {
   console.log("game start");
   $game_message.classList.add("hide");
   $start_btn.classList.add("hide");
 };
-const onKeyDown = () => {
+const onKeyDown = (e) => {
   console.log("on");
+  keys[e.code] = true;
+  console.log(e.code);
 };
-const onKeyUp = () => {
+const onKeyUp = (e) => {
+  console.log(e.code);
+  keys[e.code] = false;
   console.log("off");
 };
 
