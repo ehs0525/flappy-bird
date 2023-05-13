@@ -11,18 +11,34 @@ let $wing = document.createElement("div");
 let player = {
   x: 0,
   y: 0,
-  speed: 2,
+  speed: 5,
 };
 
 const playGame = () => {
-  if (keys.ArrowUp) {
+  let move = false;
+  if (keys.ArrowUp && player.x > 0) {
     player.x -= player.speed;
-  } else if (keys.ArrowDown) {
+    move = true;
+  } else if (
+    keys.ArrowDown &&
+    player.x < $game_area.offsetHeight - $bird.offsetHeight
+  ) {
     player.x += player.speed;
-  } else if (keys.ArrowLeft) {
+    move = true;
+  } else if (keys.ArrowLeft && player.y > 0) {
     player.y -= player.speed;
-  } else if (keys.ArrowRight) {
+    move = true;
+  } else if (
+    keys.ArrowRight &&
+    player.y < $game_area.offsetWidth - $bird.offsetWidth
+  ) {
     player.y += player.speed;
+    move = true;
+  }
+
+  if (move) {
+    $wing.pos = $wing.pos === 15 ? 25 : 15;
+    $wing.style.top = $wing.pos + "px";
   }
   $bird.style.top = player.x + "px";
   $bird.style.left = player.y + "px";
@@ -35,6 +51,8 @@ const start = () => {
 
   $bird.setAttribute("class", "bird");
   $wing.setAttribute("class", "wing");
+  $wing.pos = 15;
+  $wing.style.top = $wing.pos + "px";
   $bird.appendChild($wing);
   $game_area.appendChild($bird);
   player.x = $bird.offsetTop;
