@@ -21,6 +21,21 @@ let pipe = {
   cnt: 0,
 };
 
+const movePipes = () => {
+  let pipes = document.querySelectorAll(".pipe");
+  let passed = false;
+
+  pipes.forEach((pipe) => {
+    pipe.y -= player.speed;
+    pipe.style.left = pipe.y + "px";
+    if (pipe.y < -pipe.width) {
+      pipe.parentElement.removeChild(pipe);
+      passed = true;
+    }
+  });
+
+  if (passed) makePipe(0);
+};
 const makePipe = (p) => {
   let totalHeight = $game_area.offsetHeight;
   let totalWidth = $game_area.offsetWidth;
@@ -28,7 +43,9 @@ const makePipe = (p) => {
   let $bottom_pipe = document.createElement("div");
 
   $top_pipe.classList.add("pipe");
+  $top_pipe.width = 100;
   $top_pipe.height = Math.floor(Math.random() * 350);
+  $top_pipe.style.width = $top_pipe.width + "px";
   $top_pipe.style.height = $top_pipe.height + "px";
   $top_pipe.style.top = "0px";
   $top_pipe.style.left = totalWidth + p + "px";
@@ -38,6 +55,7 @@ const makePipe = (p) => {
   pipe.spaceBetwweenRow = Math.floor(Math.random() * 250) + 150;
 
   $bottom_pipe.classList.add("pipe");
+  $bottom_pipe.style.width = $top_pipe.width + "px";
   $bottom_pipe.style.height =
     totalHeight - $top_pipe.height - pipe.spaceBetwweenRow + "px";
   $bottom_pipe.style.left = totalWidth + p + "px";
@@ -58,6 +76,7 @@ const gameOver = () => {
 const playGame = () => {
   if (!player.isAlive) return;
 
+  movePipes();
   let $mercy = document.querySelector(".mercy");
   let $wing = document.querySelector(".wing");
   let move = false;
@@ -114,8 +133,7 @@ const start = () => {
   let $wing = document.createElement("div");
   $mercy.setAttribute("class", "mercy");
   $wing.setAttribute("class", "wing");
-  $wing.pos = 15;
-  $wing.style.top = $wing.pos + "px";
+  $wing.style.top = "15px";
   $mercy.appendChild($wing);
   $game_area.appendChild($mercy);
   player.x = $mercy.offsetTop;
