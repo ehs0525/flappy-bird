@@ -21,7 +21,48 @@ let pipe = {
   cnt: 0,
 };
 
-const movePipes = () => {
+const isCollided = (mercy, pipe) => {
+  const mercyRect = mercy.getBoundingClientRect();
+  const pipeRect = pipe.getBoundingClientRect();
+
+  return (
+    mercyRect.right - 20 >= pipeRect.left &&
+    mercyRect.left + 20 <= pipeRect.right &&
+    mercyRect.bottom - 10 >= pipeRect.top &&
+    mercyRect.top + 10 <= pipeRect.bottom
+  );
+
+  // // 캔버스 생성
+  // const canvas = document.createElement("canvas");
+  // const context = canvas.getContext("2d");
+
+  // // 두 요소 중 크기가 더 큰 요소의 크기로 캔버스 설정
+  // canvas.width = Math.max(mercyRect.width, pipeRect.width);
+  // canvas.height = Math.max(mercyRect.height, pipeRect.height);
+
+  // // mercy 그리기
+  // context.clearRect(0, 0, canvas.width, canvas.height);
+  // context.drawImage(mercy, mercyRect.x, mercyRect.y);
+
+  // // pipe 그리기
+  // context.globalCompositeOperation = "source-in";
+  // context.drawImage(pipe, pipeRect.x, pipeRect.y);
+
+  // // 겹치는 픽셀 확인
+  // const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+  // const data = imageData.data;
+
+  // for (let i = 3; i < data.length; i += 4) {
+  //   if (data[i] !== 0) {
+  //     // 투명하지 않은 부분이 겹치는 경우
+  //     return true;
+  //   }
+  // }
+
+  // // 겹치는 부분이 없는 경우
+  // return false;
+};
+const movePipes = (mercy) => {
   let pipes = document.querySelectorAll(".pipe");
   let passed = false;
 
@@ -31,6 +72,10 @@ const movePipes = () => {
     if (pipe.y < -pipe.width) {
       pipe.parentElement.removeChild(pipe);
       passed = true;
+    }
+    if (isCollided(mercy, pipe)) {
+      console.log("충돌!");
+      gameOver(mercy);
     }
   });
 
@@ -44,7 +89,7 @@ const makePipe = (p) => {
 
   $top_pipe.classList.add("pipe");
   $top_pipe.width = 100;
-  $top_pipe.height = Math.floor(Math.random() * 350);
+  $top_pipe.height = Math.floor(Math.random() * 500);
   $top_pipe.style.width = $top_pipe.width + "px";
   $top_pipe.style.height = $top_pipe.height + "px";
   $top_pipe.style.top = "0px";
@@ -52,7 +97,7 @@ const makePipe = (p) => {
   $top_pipe.y = totalWidth + p;
   $game_area.appendChild($top_pipe);
 
-  pipe.spaceBetwweenRow = Math.floor(Math.random() * 250) + 150;
+  pipe.spaceBetwweenRow = Math.floor(Math.random() * 250) + 250;
 
   $bottom_pipe.classList.add("pipe");
   $bottom_pipe.style.width = $top_pipe.width + "px";
@@ -63,9 +108,11 @@ const makePipe = (p) => {
   $bottom_pipe.y = totalWidth + p;
   $game_area.appendChild($bottom_pipe);
 };
-const gameOver = () => {
+const gameOver = (mercy) => {
   player.isAlive = false;
   $score.classList.add("hide");
+
+  mercy.setAttribute("style", "transform: rotate(180deg)");
 
   $game_message.classList.remove("hide");
   $game_message.innerHTML =
@@ -76,10 +123,11 @@ const gameOver = () => {
 const playGame = () => {
   if (!player.isAlive) return;
 
-  movePipes();
   let $mercy = document.querySelector(".mercy");
   let $wing = document.querySelector(".wing");
   let move = false;
+
+  movePipes($mercy);
   if ((keys.ArrowUp || keys.Space) && player.x > 0) {
     player.x -= player.speed * 5;
     move = true;
@@ -103,7 +151,7 @@ const playGame = () => {
   player.x += 2 * player.speed;
   if (player.x > $game_area.offsetHeight) {
     console.log("game over");
-    gameOver();
+    gameOver($mercy);
   }
 
   if (move) {
