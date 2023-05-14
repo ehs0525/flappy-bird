@@ -11,13 +11,14 @@ let $wing = document.createElement("div");
 let player = {
   x: 0,
   y: 0,
-  speed: 5,
+  speed: 2,
+  score: 0,
 };
 
 const playGame = () => {
   let move = false;
-  if (keys.ArrowUp && player.x > 0) {
-    player.x -= player.speed;
+  if ((keys.ArrowUp || keys.Space) && player.x > 0) {
+    player.x -= player.speed * 5;
     move = true;
   } else if (
     keys.ArrowDown &&
@@ -36,12 +37,15 @@ const playGame = () => {
     move = true;
   }
 
+  player.x += 2 * player.speed;
+
   if (move) {
     $wing.pos = $wing.pos === 15 ? 25 : 15;
     $wing.style.top = $wing.pos + "px";
   }
   $bird.style.top = player.x + "px";
   $bird.style.left = player.y + "px";
+  $score.innerText = "점수 : " + ++player.score;
   window.requestAnimationFrame(playGame);
 };
 const start = () => {
@@ -57,6 +61,7 @@ const start = () => {
   $game_area.appendChild($bird);
   player.x = $bird.offsetTop;
   player.y = $bird.offsetLeft;
+
   window.requestAnimationFrame(playGame);
 };
 const onKeyDown = (e) => {
