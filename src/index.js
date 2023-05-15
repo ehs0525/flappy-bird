@@ -111,15 +111,13 @@ const makePipe = (p) => {
 const gameOver = (mercy) => {
   player.isAlive = false;
   $score.classList.add("hide");
-
-  // mercy.setAttribute("style", "transform: rotate(180deg)");
   mercy.classList.add("upside_down");
 
   $game_message.classList.remove("hide");
   $game_message.innerHTML =
     "<i>GAME OVER<br/><br/>당신의 점수는 " +
     player.score +
-    "점입니다.<br/>다시 시작하려면 여기를 누르세요.</i>";
+    "점입니다.<br/>다시 시작하려면 아무 곳이나 누르세요.</i>";
 };
 const playGame = () => {
   if (!player.isAlive) return;
