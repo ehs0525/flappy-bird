@@ -87,7 +87,7 @@ const makePipe = (p) => {
   let $top_pipe = document.createElement("div");
   let $bottom_pipe = document.createElement("div");
 
-  $top_pipe.classList.add("pipe");
+  $top_pipe.classList.add("pipe", "upside_down");
   $top_pipe.width = 100;
   $top_pipe.height = Math.floor(Math.random() * 500);
   $top_pipe.style.width = $top_pipe.width + "px";
@@ -112,7 +112,8 @@ const gameOver = (mercy) => {
   player.isAlive = false;
   $score.classList.add("hide");
 
-  mercy.setAttribute("style", "transform: rotate(180deg)");
+  // mercy.setAttribute("style", "transform: rotate(180deg)");
+  mercy.classList.add("upside_down");
 
   $game_message.classList.remove("hide");
   $game_message.innerHTML =

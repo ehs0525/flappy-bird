@@ -13,29 +13,34 @@ body {
 .hide {
   display: none;
 }
+.upside_down {
+  transform: scaleY(-1);
+}
 
 .btn_container {
   position: absolute;
   left: 0;
   right: 0;
-  top: 30%;
+  top: 35%;
 }
 .game_title {
   text-align: center;
   font-size: 70px;
+  margin: 35px;
 }
 .start_btn {
   border: none;
   display: flex;
   text-align: center;
   cursor: pointer;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   outline: none;
   overflow: hidden;
   position: relative;
   color: #fff;
-  font-weight: 700;
-  font-size: 30px;
+  font-family: 'overwatch';
+  /* font-weight: 700; */
+  font-size: 35px;
   background-color: #222;
   padding: 17px 60px;
   margin: 0 auto;
@@ -70,9 +75,6 @@ body {
 .game_area {
   width: 100%;
   height: 100%;
-  /* background-color: skyblue; */
-  /* background-image: linear-gradient(to top, # 0%, #97d9e1 100%); */
-  
   background: linear-gradient(-45deg, #37C6FF, #CDF0FF, #91E0FF, #0072A0);
   background-repeat: no-repeat;
   background-size: 400% 400%;
@@ -90,6 +92,7 @@ body {
     background-position: 0 50%;
   }
 }
+
 .game_message {
   position: fixed;
   top: 30%;
@@ -97,10 +100,11 @@ body {
   right: 0;
   padding: 30px;
   text-align: center;
-  background-color: rgba(0,0,0,0.10);
+  background-color: rgba(0,0,0,0.15);
   font-size: 5em;
   color: red;
-  text-shadow: 2px 2px 2px gray;
+  text-shadow: 3px 3px 3px gray;
+  cursor: pointer;
 }
 
 
@@ -138,7 +142,62 @@ body {
   font-size: 2em;
 }
 
-.pipe {
+/* .pipe {
   position: absolute;
   background-color: #2CB01A;
+
+} */
+
+.pipe {
+  position: absolute;
+  /* bottom: 0; */
+  /* left: 50%; */
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(
+    to right,
+    #579C66,
+    #579C66 3px,
+    #6DAD7B 8px,
+    #E9ffE8 17px,
+    #9DD591 25px,
+    #6BB765 50px,
+    #142E16 100%
+  );
+}
+/* 파이프 목 이음 부분 */
+.pipe::before {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  left: -5px;
+  height: 4px;
+  width: 110px;
+  border-radius: 3px 3px 0 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0.1) 98%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+}
+/* 파이프 머리 */
+.pipe::after {
+  content: '';
+  position: absolute;
+  left: -5px;
+  height: 25px;
+  width: 110px;
+  border-radius: 3px;
+  border-bottom: 4px solid rgba(0, 0, 0, 0.4);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(
+    to right,
+    #579C66,
+    #579C66 3px,
+    #6DAD7B 9px,
+    #E9FFE8 18px,
+    #9DD591 27px,
+    #6BB765 52px,
+    #142E16 100%
+  );
 }
