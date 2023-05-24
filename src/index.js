@@ -6,6 +6,7 @@ const $start_btn = document.querySelector(".start_btn");
 const $game_area = document.querySelector(".game_area");
 const $game_message = document.querySelector(".game_message");
 let keys = {};
+let startTime;
 
 let player = {
   x: 0,
@@ -121,6 +122,8 @@ const gameOver = (mercy) => {
 };
 const playGame = () => {
   if (!player.isAlive) return;
+  let currTime = new Date().getTime();
+  console.log("startTime :", startTime, "currTime :", currTime);
 
   let $mercy = document.querySelector(".mercy");
   let $wing = document.querySelector(".wing");
@@ -194,6 +197,7 @@ const start = () => {
     pipe.startPos++;
   }
 
+  startTime = new Date().getTime();
   window.requestAnimationFrame(playGame);
 };
 const onKeyDown = (e) => {
