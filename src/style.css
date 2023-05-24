@@ -1,6 +1,7 @@
 @font-face {
   font-family: 'overwatch';
   src: url('/assets/fonts/koverwatch.ttf');
+  font-display: block;
 }
 
 body {
