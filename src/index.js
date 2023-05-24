@@ -128,8 +128,6 @@ const playGame = () => {
     currTime = new Date().getTime();
   }
 
-  console.log("startTime :", startTime, "currTime :", currTime);
-
   let $mercy = document.querySelector(".mercy");
   let $wing = document.querySelector(".wing");
   let move = false;
